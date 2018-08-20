@@ -1,0 +1,43 @@
+
+System:
+
+	python_executable      : /Users/deil/software/anaconda3/envs/gammapy-dev/bin/python 
+	python_version         : 3.6.0      
+	machine                : x86_64     
+	system                 : Darwin     
+
+
+Gammapy package:
+
+	path                   : /Users/deil/work/code/gammapy/gammapy 
+	version                : 0.8.dev6928 
+	githash                : 71078d3e7d944fa483b5290956f83462dbc2d484 
+
+
+Other packages:
+
+	numpy                  : 1.14.5     
+	scipy                  : 1.1.0      
+	matplotlib             : 2.2.2      
+	cython                 : 0.28.3     
+	astropy                : 3.0.3      
+	astropy_healpix        : 0.2        
+	reproject              : 0.4        
+	sherpa                 : 4.10.0     
+	pytest                 : 3.6.2      
+	sphinx                 : 1.7.5      
+	healpy                 : 1.11.0     
+	regions                : 0.2        
+	iminuit                : 1.2        
+	naima                  : not installed 
+	photutils              : 0.4        
+	uncertainties          : 3.0.2      
+
+
+Gammapy environment variables:
+
+	GAMMAPY_EXTRA          : /Users/deil/work/code/gammapy-extra 
+	GAMMA_CAT              : /Users/deil/work/code/gamma-cat 
+	GAMMAPY_FERMI_LAT_DATA : /Users/deil/work/code/gammapy-fermi-lat-data 
+	CTADATA                : /Users/deil/work/data/cta/1dc/1dc 
+

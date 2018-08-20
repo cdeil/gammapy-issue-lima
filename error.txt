@@ -1,0 +1,48 @@
+__________________________________________________________________ test_compute_lima_on_off_image ___________________________________________________________________
+
+    @requires_dependency('scipy')
+    @requires_data('gammapy-extra')
+    def test_compute_lima_on_off_image():
+        """
+        Test Li & Ma image with snippet from the H.E.S.S. survey data.
+        """
+        filename = '$GAMMAPY_EXTRA/test_datasets/unbundled/hess/survey/hess_survey_snippet.fits.gz'
+        n_on = Map.read(filename, hdu='ON')
+        n_off = Map.read(filename, hdu='OFF')
+        a_on = Map.read(filename, hdu='ONEXPOSURE')
+        a_off = Map.read(filename, hdu='OFFEXPOSURE')
+        significance = Map.read(filename, hdu='SIGNIFICANCE')
+    
+        kernel = Tophat2DKernel(5)
+        results = compute_lima_on_off_image(n_on, n_off, a_on, a_off, kernel)
+    
+        # Reproduce safe significance threshold from HESS software
+        results['significance'].data[results['n_on'].data < 5] = 0
+    
+        # crop the image at the boundaries, because the reference image
+        # is cut out from a large map, there is no way to reproduce the
+        # result with regular boundary handling
+        actual = results['significance'].crop(kernel.shape).data
+        desired = significance.crop(kernel.shape).data
+    
+        # Set boundary to NaN in reference image
+>       assert_allclose(actual, desired, atol=1e-5)
+E       AssertionError: 
+E       Not equal to tolerance rtol=1e-07, atol=1e-05
+E       
+E       (mismatch 1.6004924592182164%)
+E        x: array([[-1.136077, -0.525851, -0.240331, ...,  0.162831, -0.264914,
+E                0.      ],
+E              [-0.82909 , -0.565577, -0.947328, ...,  0.943632,  0.202799,...
+E        y: array([[-1.136077, -0.525851, -0.240331, ...,  0.162831, -0.264915,
+E                0.      ],
+E              [-0.82909 , -0.565578, -0.947328, ...,  0.943632,  0.202799,...
+
+gammapy/detect/tests/test_lima.py:58: AssertionError
+----------------------------------------------------------------------- Captured stderr call ------------------------------------------------------------------------
+/Users/deil/work/code/gammapy/gammapy/detect/lima.py:94: RuntimeWarning: divide by zero encountered in true_divide
+  alpha_conv = a_on_conv / a_off.data
+/Users/deil/work/code/gammapy/gammapy/detect/lima.py:98: RuntimeWarning: invalid value encountered in multiply
+  background_conv = alpha_conv * n_off.data
+============================================ 1 failed, 1252 passed, 21 skipped, 18 xfailed, 1 xpassed in 146.81 seconds =============================================
+
